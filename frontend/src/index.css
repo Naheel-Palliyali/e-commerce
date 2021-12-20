@@ -5,3 +5,7 @@ main {
 .count {
   margin-left: 0.5rem;
 }
+
+h1 {
+  padding: 24px 0px;
+}
