@@ -21,30 +21,27 @@ const Header = () => {
           <Navbar.Toggle aria-controls='navbarScroll' />
           <Navbar.Collapse id='navbarScroll'>
             <Nav style={{ marginLeft: 'auto' }} navbarScroll>
-              <Nav.Link>
-                <Link
-                  to='/cart'
-                  style={{
-                    textDecoration: 'none',
-                    color: 'white',
-                    opacity: 0.6,
-                  }}
-                >
-                  {cart} Cart
-                </Link>
-              </Nav.Link>
-              <Nav.Link>
-                <Link
-                  to='/login'
-                  style={{
-                    textDecoration: 'none',
-                    color: 'white',
-                    opacity: 0.6,
-                  }}
-                >
-                  {user} Sign in
-                </Link>
-              </Nav.Link>
+              <Link
+                to='/cart'
+                style={{
+                  textDecoration: 'none',
+                  color: 'white',
+                  opacity: 0.6,
+                }}
+              >
+                {cart} Cart
+              </Link>
+              <Link
+                to='/login'
+                style={{
+                  textDecoration: 'none',
+                  color: 'white',
+                  opacity: 0.6,
+                  marginLeft: '24px',
+                }}
+              >
+                {user} Sign in
+              </Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
