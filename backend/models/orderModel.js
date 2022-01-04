@@ -7,7 +7,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
       ref: 'User',
     },
-    orderItmes: [
+    orderItems: [
       {
         name: { type: String, required: true },
         image: { type: String, required: true },
