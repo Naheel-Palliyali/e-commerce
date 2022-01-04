@@ -99,8 +99,7 @@ const PlaceOrderScreen = () => {
             </ListGroup.Item>
           </ListGroup>
         </Col>
-        {/* </Row>
-      <Row> */}
+
         <Col md={4}>
           <ListGroup>
             <ListGroup.Item>
