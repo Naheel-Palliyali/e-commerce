@@ -12,6 +12,7 @@ const orderSchema = new mongoose.Schema(
         name: { type: String, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
+        qty: { type: Number, required: true },
         product: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
@@ -34,6 +35,11 @@ const orderSchema = new mongoose.Schema(
       status: { type: String },
       update_time: { type: String },
       email_address: { type: String },
+    },
+    itemsPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
     },
     taxPrice: {
       type: Number,
