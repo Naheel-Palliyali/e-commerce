@@ -22,6 +22,7 @@ const PlaceOrderScreen = () => {
     if (success) {
       navigate(`/orders/${order._id}`)
     }
+    // eslint-disable-next-line
   }, [success, navigate])
 
   cart.itemsPrice = cartItems.reduce(
