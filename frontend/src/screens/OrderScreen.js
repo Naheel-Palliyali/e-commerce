@@ -7,7 +7,6 @@ import { getOrderDetails, payOrder } from '../actions/orderActions'
 import { useParams } from 'react-router-dom'
 import Loader from '../components/Loader'
 import { PayPalButton } from 'react-paypal-button-v2'
-import { ORDER_PAY_RESET } from '../constants/orderConstants'
 
 const OrderScreen = () => {
   const dispatch = useDispatch()
@@ -22,6 +21,10 @@ const OrderScreen = () => {
   const { loading: loadingPay, success: successPay } = orderPay
 
   useEffect(() => {
+    if (loading) {
+      dispatch(getOrderDetails(orderId))
+    }
+
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get('/api/config/paypal')
       const script = document.createElement('script')
@@ -32,17 +35,14 @@ const OrderScreen = () => {
       document.body.appendChild(script)
     }
 
-    if (!order || successPay) {
-      dispatch({ type: ORDER_PAY_RESET })
-      dispatch(getOrderDetails(orderId))
-    } else if (!order.isPaid) {
+    if (!loading && !order.isPaid) {
       if (!window.paypal) {
         addPayPalScript()
-      } else {
-        setSdkReady(true)
       }
+    } else if (successPay) {
+      order.isPaid = true
     }
-  }, [dispatch, orderId, order, successPay])
+  }, [dispatch, orderId, order, loading, successPay])
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)
@@ -93,7 +93,7 @@ const OrderScreen = () => {
                   <strong>Method: </strong>
                   {order.paymentMethod}
                 </p>
-                {!order.isPaid ? (
+                {!successPay ? (
                   <Message variant='danger' message='Not paid' />
                 ) : (
                   <Message variant='success' message='Paid' />
@@ -162,7 +162,7 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
-              {!order.isPaid && (
+              {!successPay && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
