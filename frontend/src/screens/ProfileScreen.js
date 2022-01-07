@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Row, Col, Form, Button } from 'react-bootstrap'
+import { Row, Col, Form, Button, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import { getMyOrders } from '../actions/orderActions'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+library.add(faTimes)
+const xSymbol = <FontAwesomeIcon icon={faTimes} style={{ color: 'red' }} />
 
 const RegisterScreen = () => {
   const [name, setName] = useState('')
@@ -25,16 +32,19 @@ const RegisterScreen = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const myOrders = useSelector((state) => state.myOrders)
+  const { orders, loading: loadingOrdersList } = myOrders
+
   useEffect(() => {
     if (!userInfo) {
       navigate('/login')
     } else {
       if (!user.name) {
         dispatch(getUserDetails('profile'))
+        dispatch(getMyOrders())
       } else {
         setName(user.name)
         setEmail(user.email)
-        console.log(user, 'from screen')
       }
     }
   }, [navigate, dispatch, userInfo, user])
@@ -51,7 +61,7 @@ const RegisterScreen = () => {
 
   return (
     <Row className='py-4'>
-      <Col md={4}>
+      <Col md={3}>
         <h2>USER PROFILE</h2>
         {error && <Message variant='danger' message={error} />}
         {message && <Message variant='danger' message={message} />}
@@ -106,8 +116,51 @@ const RegisterScreen = () => {
         </Form>
       </Col>
 
-      <Col md={4}>
+      <Col md={{ span: 9 }}>
         <h2>MY ORDERS</h2>
+        {loadingOrdersList ? (
+          <Loader />
+        ) : (
+          <Table striped bordered hover size='sm' style={{ marginTop: '64px' }}>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders &&
+                orders.map((order) => (
+                  <tr>
+                    <td>{order._id}</td>
+                    <td>{order.createdAt.substring(0, 10)}</td>
+                    <td>${order.totalPrice}</td>
+                    <td>
+                      {order.isPaid ? order.paidAt.substring(0, 10) : xSymbol}
+                    </td>
+                    <td>
+                      {order.isDelivered
+                        ? order.deliveredAt.substring(0, 10)
+                        : xSymbol}
+                    </td>
+                    <td>
+                      <Button
+                        variant='outline-dark'
+                        size='sm'
+                        href={`/api/orders/order/${order._id}`}
+                      >
+                        Details
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </Table>
+        )}
       </Col>
     </Row>
   )

@@ -35,7 +35,7 @@ const OrderScreen = () => {
       document.body.appendChild(script)
     }
 
-    if (!loading && !order.isPaid) {
+    if (!loading && !successPay) {
       if (!window.paypal) {
         addPayPalScript()
       }
@@ -93,7 +93,7 @@ const OrderScreen = () => {
                   <strong>Method: </strong>
                   {order.paymentMethod}
                 </p>
-                {!successPay ? (
+                {!successPay && !order.isPaid ? (
                   <Message variant='danger' message='Not paid' />
                 ) : (
                   <Message variant='success' message='Paid' />
@@ -162,7 +162,7 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
-              {!successPay && (
+              {!successPay && !order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
