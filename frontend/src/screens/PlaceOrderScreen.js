@@ -20,7 +20,7 @@ const PlaceOrderScreen = () => {
 
   useEffect(() => {
     if (success) {
-      navigate(`/orders/${order._id}`)
+      navigate(`/api/orders/order/${order._id}`)
     }
     // eslint-disable-next-line
   }, [success, navigate])

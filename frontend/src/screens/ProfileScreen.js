@@ -121,7 +121,7 @@ const RegisterScreen = () => {
         {loadingOrdersList ? (
           <Loader />
         ) : (
-          <Table striped bordered hover size='sm' style={{ marginTop: '64px' }}>
+          <Table striped bordered hover size='sm' style={{ marginTop: '18px' }}>
             <thead>
               <tr>
                 <th>ID</th>
@@ -147,10 +147,18 @@ const RegisterScreen = () => {
                         ? order.deliveredAt.substring(0, 10)
                         : xSymbol}
                     </td>
-                    <td>
+                    <td
+                      style={{
+                        padding: '6px',
+                        position: 'relative',
+                      }}
+                    >
                       <Button
                         variant='outline-dark'
                         size='sm'
+                        style={{
+                          padding: '4px 16px',
+                        }}
                         href={`/api/orders/order/${order._id}`}
                       >
                         Details

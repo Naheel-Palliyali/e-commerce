@@ -6,6 +6,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { logout } from '../actions/userActions'
+import { USER_DETAILS_RESET } from '../constants/userConstants'
+import { MY_ORDERS_RESET } from '../constants/orderConstants'
 
 library.add(faShoppingCart, faUser)
 
@@ -19,6 +21,8 @@ const Header = () => {
   const { userInfo } = userLogin
 
   const logoutHandler = () => {
+    dispatch({ type: USER_DETAILS_RESET })
+    dispatch({ type: MY_ORDERS_RESET })
     dispatch(logout())
   }
 
