@@ -1,22 +1,43 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Table } from 'react-bootstrap'
-import { listUsers } from '../actions/userActions'
+import { useNavigate } from 'react-router-dom'
+import { deleteUser, listUsers } from '../actions/userActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+library.add(faTimes)
+const xSymbol = <FontAwesomeIcon icon={faTimes} style={{ color: 'red' }} />
+const tick = <FontAwesomeIcon icon={faCheck} style={{ color: 'green' }} />
 
 const UserListScreen = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   const userList = useSelector((state) => state.userList)
   const { loading, userList: users, error } = userList
 
+  const userDelete = useSelector((state) => state.userDelete)
+  const { success } = userDelete
+
   useEffect(() => {
-    dispatch(listUsers())
-  }, [dispatch])
+    if (!userInfo || !userInfo.isAdmin) {
+      navigate('/login')
+    } else {
+      dispatch(listUsers())
+    }
+  }, [dispatch, userInfo, navigate, success])
 
   const deleteUserHandler = (id) => {
-    console.log('delete')
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteUser(id))
+    }
   }
 
   const editUserHandler = (id) => {
@@ -48,7 +69,7 @@ const UserListScreen = () => {
                   <td>{user._id}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
-                  <td>{user.isAdmin ? 'Yes' : 'No'}</td>
+                  <td>{user.isAdmin ? tick : xSymbol}</td>
                   <td
                     style={{
                       padding: '6px',

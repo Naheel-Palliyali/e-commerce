@@ -52,6 +52,21 @@ const Header = () => {
                   <NavDropdown.Item>
                     <Link to='/profile'>Profile</Link>
                   </NavDropdown.Item>
+                  {userInfo.isAdmin && (
+                    <NavDropdown.Item>
+                      <Link to='/api/admin/users'>Manage users</Link>
+                    </NavDropdown.Item>
+                  )}
+                  {userInfo.isAdmin && (
+                    <NavDropdown.Item>
+                      <Link to='/api/admin/orders'>Manage orders</Link>
+                    </NavDropdown.Item>
+                  )}
+                  {userInfo.isAdmin && (
+                    <NavDropdown.Item>
+                      <Link to='/api/admin/products'>Manage products</Link>
+                    </NavDropdown.Item>
+                  )}
 
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
