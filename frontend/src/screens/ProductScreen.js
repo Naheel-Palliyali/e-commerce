@@ -36,8 +36,18 @@ const ProductScreen = () => {
 
   return (
     <>
-      <Link to='/' className='btn btn-light my-3'>
-        Go back
+      <Link to='/'>
+        <Button
+          variant='outline-secondary'
+          size='sm'
+          style={{
+            padding: '4px 8px',
+            borderColor: 'white',
+            marginBottom: '12px',
+          }}
+        >
+          Go back
+        </Button>
       </Link>
       {loading ? (
         <Row>

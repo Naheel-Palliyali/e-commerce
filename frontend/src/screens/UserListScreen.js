@@ -42,6 +42,7 @@ const UserListScreen = () => {
 
   const editUserHandler = (id) => {
     console.log('edit')
+    navigate(`/api/admin/users/${id}/edit`)
   }
 
   return (

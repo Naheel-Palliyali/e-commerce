@@ -43,8 +43,8 @@ const RegisterScreen = () => {
         dispatch(getUserDetails('profile'))
         dispatch(getMyOrders())
       } else {
-        setName(user.name)
-        setEmail(user.email)
+        setName(userInfo.name)
+        setEmail(userInfo.email)
       }
     }
   }, [navigate, dispatch, userInfo, user])
