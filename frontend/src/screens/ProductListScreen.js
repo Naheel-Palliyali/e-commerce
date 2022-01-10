@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Table, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { listProduct } from '../actions/productActions'
+import { listProduct, deleteProduct } from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -19,23 +19,32 @@ const ProductListScreen = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const productDelete = useSelector((state) => state.productDelete)
+  const {
+    loading: loadingDelete,
+    success: successDelete,
+    error: errorDelete,
+  } = productDelete
+
   useEffect(() => {
     if (!userInfo || !userInfo.isAdmin) {
       navigate('/login')
     } else {
       dispatch(listProduct())
     }
-  }, [dispatch, userInfo, navigate])
+  }, [dispatch, userInfo, navigate, successDelete])
 
   const productList = useSelector((state) => state.productList)
   const { loading, products, error } = productList
 
   const deleteProductHandler = (id) => {
-    // delete product
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteProduct(id))
+    }
   }
 
   const editProductHandler = (id) => {
-    navigate(`/api/admin/users/${id}/edit`)
+    navigate(`/api/admin/products/${id}/edit`)
   }
 
   return (
@@ -54,6 +63,8 @@ const ProductListScreen = () => {
           </Button>
         </Col>
       </Row>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant='danger' message={errorDelete} />}
       {loading ? (
         <Loader />
       ) : error ? (
