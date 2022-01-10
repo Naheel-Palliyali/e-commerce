@@ -8,6 +8,7 @@ import {
   USER_DETAILS_SUCCESS,
   USER_EDIT_FAIL,
   USER_EDIT_REQUEST,
+  USER_EDIT_RESET,
   USER_EDIT_SUCCESS,
   USER_LIST_FAIL,
   USER_LIST_REQUEST,
@@ -129,6 +130,8 @@ export const userEditReducer = (
 
     case USER_EDIT_FAIL:
       return { loading: false, error: action.payload }
+    case USER_EDIT_RESET:
+      return {}
 
     default:
       return state

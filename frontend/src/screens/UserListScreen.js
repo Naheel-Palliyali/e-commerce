@@ -23,6 +23,7 @@ const UserListScreen = () => {
   const userList = useSelector((state) => state.userList)
   const { loading, userList: users, error } = userList
 
+  const userEdit = useSelector((state) => state.userEdit)
   const userDelete = useSelector((state) => state.userDelete)
   const { success } = userDelete
 
@@ -32,7 +33,7 @@ const UserListScreen = () => {
     } else {
       dispatch(listUsers())
     }
-  }, [dispatch, userInfo, navigate, success])
+  }, [dispatch, userInfo, navigate, success, userEdit])
 
   const deleteUserHandler = (id) => {
     if (window.confirm('Are you sure?')) {
@@ -41,7 +42,6 @@ const UserListScreen = () => {
   }
 
   const editUserHandler = (id) => {
-    console.log('edit')
     navigate(`/api/admin/users/${id}/edit`)
   }
 
