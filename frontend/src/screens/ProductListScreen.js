@@ -2,12 +2,17 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Table, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { listProduct, deleteProduct } from '../actions/productActions'
+import {
+  listProduct,
+  deleteProduct,
+  createProduct,
+} from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 library.add(faPlus)
 const plus = <FontAwesomeIcon icon={faPlus} style={{ marginRight: '8px' }} />
@@ -19,6 +24,14 @@ const ProductListScreen = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const productCreate = useSelector((state) => state.productCreate)
+  const {
+    loading: loadingCreate,
+    success: successCreate,
+    error: errorCreate,
+    product: productCreated,
+  } = productCreate
+
   const productDelete = useSelector((state) => state.productDelete)
   const {
     loading: loadingDelete,
@@ -27,12 +40,22 @@ const ProductListScreen = () => {
   } = productDelete
 
   useEffect(() => {
+    dispatch({ type: PRODUCT_CREATE_RESET })
     if (!userInfo || !userInfo.isAdmin) {
       navigate('/login')
+    } else if (successCreate) {
+      navigate(`/admin/product/${productCreated._id}/edit}`)
     } else {
       dispatch(listProduct())
     }
-  }, [dispatch, userInfo, navigate, successDelete])
+  }, [
+    dispatch,
+    userInfo,
+    navigate,
+    successDelete,
+    successCreate,
+    productCreated,
+  ])
 
   const productList = useSelector((state) => state.productList)
   const { loading, products, error } = productList
@@ -47,6 +70,10 @@ const ProductListScreen = () => {
     navigate(`/api/admin/products/${id}/edit`)
   }
 
+  const createProductHandler = () => {
+    dispatch(createProduct())
+  }
+
   return (
     <>
       <Row className='align-items-center'>
@@ -57,6 +84,7 @@ const ProductListScreen = () => {
           <Button
             className='my-3'
             style={{ position: 'absolute', right: '12px', top: '12px' }}
+            onClick={createProductHandler}
           >
             {plus}
             Create product
@@ -64,7 +92,19 @@ const ProductListScreen = () => {
         </Col>
       </Row>
       {loadingDelete && <Loader />}
-      {errorDelete && <Message variant='danger' message={errorDelete} />}
+      {loadingCreate && <Loader />}
+      {errorDelete && (
+        <Message
+          variant='danger'
+          message={`Deleting product failed: ${errorDelete}`}
+        />
+      )}
+      {errorCreate && (
+        <Message
+          variant='danger'
+          message={`Creating product failed: ${errorCreate}`}
+        />
+      )}
       {loading ? (
         <Loader />
       ) : error ? (
