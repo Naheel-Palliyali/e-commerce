@@ -16,6 +16,7 @@ import OrderScreen from './screens/OrderScreen'
 import UserListScreen from './screens/UserListScreen'
 import ProductListScreen from './screens/ProductListScreen'
 import UserEditScreen from './screens/UserEditScreen'
+import ProductEditScreen from './screens/ProductEditScreen'
 
 const App = () => {
   return (
@@ -35,6 +36,10 @@ const App = () => {
             />
             <Route path='/register' element={<RegisterScreen />} exact />
             <Route path='/product/:id' element={<ProductScreen />} />
+            <Route
+              path='/api/admin/products/:id/edit'
+              element={<ProductEditScreen />}
+            />
             <Route path='/cart/:id' element={<CartScreen />} />
             <Route path='/cart' element={<CartScreen />} />
             <Route path='/api/orders/order/:id' element={<OrderScreen />} />

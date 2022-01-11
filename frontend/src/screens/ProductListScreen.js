@@ -12,7 +12,10 @@ import Loader from '../components/Loader'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+import {
+  PRODUCT_CREATE_RESET,
+  PRODUCT_DETAILS_RESET,
+} from '../constants/productConstants'
 
 library.add(faPlus)
 const plus = <FontAwesomeIcon icon={faPlus} style={{ marginRight: '8px' }} />
@@ -40,11 +43,12 @@ const ProductListScreen = () => {
   } = productDelete
 
   useEffect(() => {
+    dispatch({ type: PRODUCT_DETAILS_RESET })
     dispatch({ type: PRODUCT_CREATE_RESET })
     if (!userInfo || !userInfo.isAdmin) {
       navigate('/login')
     } else if (successCreate) {
-      navigate(`/admin/product/${productCreated._id}/edit}`)
+      navigate(`/api/admin/products/${productCreated._id}/edit`)
     } else {
       dispatch(listProduct())
     }
@@ -91,8 +95,6 @@ const ProductListScreen = () => {
           </Button>
         </Col>
       </Row>
-      {loadingDelete && <Loader />}
-      {loadingCreate && <Loader />}
       {errorDelete && (
         <Message
           variant='danger'
@@ -105,7 +107,7 @@ const ProductListScreen = () => {
           message={`Creating product failed: ${errorCreate}`}
         />
       )}
-      {loading ? (
+      {loading || loadingDelete || loadingCreate ? (
         <Loader />
       ) : error ? (
         <Message message={error} variant='danger' />
