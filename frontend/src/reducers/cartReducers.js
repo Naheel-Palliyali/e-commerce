@@ -1,8 +1,10 @@
 import {
   CART_ADD_ITEM,
+  CART_CLEAR_ITEMS,
   CART_REMOVE_ITEM,
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
+  CART_ADD_ITEM_REQUEST,
 } from '../constants/cartConstants'
 
 export const cartReducer = (
@@ -10,6 +12,8 @@ export const cartReducer = (
   action
 ) => {
   switch (action.type) {
+    case CART_ADD_ITEM_REQUEST:
+      return { ...state, loading: true }
     case CART_ADD_ITEM:
       const item = action.payload
       const existItem = state.cartItems.find((x) => x.product === item.product)
@@ -17,6 +21,7 @@ export const cartReducer = (
       if (existItem) {
         return {
           ...state,
+          loading: false,
           cartItems: state.cartItems.map((x) =>
             x.product === item.product ? item : x
           ),
@@ -24,6 +29,7 @@ export const cartReducer = (
       } else {
         return {
           ...state,
+          loading: false,
           cartItems: [...state.cartItems, item],
         }
       }
@@ -46,6 +52,12 @@ export const cartReducer = (
       return {
         ...state,
         paymentMethod: action.payload,
+      }
+
+    case CART_CLEAR_ITEMS:
+      return {
+        ...state,
+        cartItems: [],
       }
 
     default:

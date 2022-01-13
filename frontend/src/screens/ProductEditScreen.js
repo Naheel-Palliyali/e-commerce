@@ -13,7 +13,7 @@ const ProductEditScreen = () => {
   const navigate = useNavigate()
 
   const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo, error, loading } = userLogin
+  const { error, loading } = userLogin
 
   const productDetails = useSelector((state) => state.productDetails)
   const {
@@ -24,7 +24,6 @@ const ProductEditScreen = () => {
 
   const productUpdate = useSelector((state) => state.productUpdate)
   const {
-    product: editedProduct,
     loading: loadingProductEdit,
     error: errorProductEdit,
     success: successProductEdit,

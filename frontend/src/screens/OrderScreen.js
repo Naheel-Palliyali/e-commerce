@@ -42,15 +42,7 @@ const OrderScreen = () => {
     } else if (successPay) {
       order.isPaid = true
     }
-  }, [
-    dispatch,
-    orderId,
-    order,
-    loading,
-    loadingPay,
-    successPay,
-    orderPay.isPaid,
-  ])
+  }, [dispatch, orderId, order, loading, loadingPay, successPay, sdkReady])
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)

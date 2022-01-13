@@ -5,6 +5,7 @@ import CheckOutSteps from '../components/CheckOutSteps'
 import Message from '../components/Message'
 import { createOrder } from '../actions/orderActions'
 import { useNavigate } from 'react-router-dom'
+import { clearCart } from '../actions/cartActions'
 
 const PlaceOrderScreen = () => {
   const dispatch = useDispatch()
@@ -21,6 +22,7 @@ const PlaceOrderScreen = () => {
   useEffect(() => {
     if (success) {
       navigate(`/api/orders/order/${order._id}`)
+      dispatch(clearCart())
     }
     // eslint-disable-next-line
   }, [success, navigate])

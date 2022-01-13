@@ -13,6 +13,7 @@ import {
 import Rating from '../components/Rating'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetail } from '../actions/productActions'
+import { addToCart } from '../actions/cartActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 
@@ -32,6 +33,7 @@ const ProductScreen = () => {
   const [qty, setQty] = useState(1)
   const addToCartHandler = () => {
     navigate(`/cart/${params}?qty=${qty}`)
+    dispatch(addToCart(params, qty))
   }
 
   return (
@@ -101,9 +103,13 @@ const ProductScreen = () => {
                           aria-label='Select quantity'
                           onChange={(e) => setQty(e.target.value)}
                         >
-                          {[...Array(product.countInStock).keys()].map((x) => (
-                            <option value={x + 1}>{x + 1}</option>
-                          ))}
+                          {[...Array(product.countInStock).keys()].map(
+                            (x, index) => (
+                              <option key={index} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            )
+                          )}
                         </Form.Select>
                       </Col>
                     </Row>

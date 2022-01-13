@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   Col,
   Row,
@@ -9,10 +9,11 @@ import {
   Card,
   Button,
 } from 'react-bootstrap'
-import { Link, useParams, useNavigate, useLocation } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
+import Loader from '../components/Loader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -22,24 +23,14 @@ library.add(faTrash)
 const Trash = <FontAwesomeIcon color='grey' icon={faTrash} />
 
 const CartScreen = () => {
-  const location = useLocation()
   const navigate = useNavigate()
-  const productId = useParams().id
   const dispatch = useDispatch()
 
   const cart = useSelector((state) => state.cart)
-  const { cartItems } = cart
+  const { cartItems, loading } = cart
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-
-  const qty = location.search.split('=')[1]
-
-  useEffect(() => {
-    if (productId) {
-      dispatch(addToCart(productId, qty))
-    }
-  }, [dispatch, productId, qty])
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id))
@@ -57,7 +48,9 @@ const CartScreen = () => {
     <Row>
       <Col md={8}>
         <h1>Shopping Cart</h1>
-        {cartItems.length === 0 ? (
+        {cartItems.length === 0 && loading ? (
+          <Loader />
+        ) : cartItems.length === 0 ? (
           <>
             <Message message='Your Cart is empty'></Message>
             <Button variant='warning' className='rounded'>
