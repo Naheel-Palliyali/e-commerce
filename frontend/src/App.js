@@ -17,6 +17,7 @@ import UserListScreen from './screens/UserListScreen'
 import ProductListScreen from './screens/ProductListScreen'
 import UserEditScreen from './screens/UserEditScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
+import OrderListScreen from './screens/OrderListScreen'
 
 const App = () => {
   return (
@@ -29,6 +30,11 @@ const App = () => {
             <Route path='/profile' element={<ProfileScreen />} exact />
             <Route path='/login' element={<LoginScreen />} exact />
             <Route path='/api/admin/users' element={<UserListScreen />} exact />
+            <Route
+              path='/api/admin/orders'
+              element={<OrderListScreen />}
+              exact
+            />
             <Route
               path='/api/admin/products'
               element={<ProductListScreen />}

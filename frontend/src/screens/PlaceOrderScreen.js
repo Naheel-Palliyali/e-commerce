@@ -39,10 +39,10 @@ const PlaceOrderScreen = () => {
         orderItems: cartItems,
         shippingAddress: shippingAddress,
         paymentMethod: paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        taxPrice: cart.taxPrice,
-        shippingPrice: cart.shippingPrice,
-        totalPrice: cart.totalPrice,
+        itemsPrice: cart.itemsPrice.toFixed(2),
+        taxPrice: cart.taxPrice.toFixed(2),
+        shippingPrice: cart.shippingPrice.toFixed(2),
+        totalPrice: cart.totalPrice.toFixed(2),
       })
     )
   }

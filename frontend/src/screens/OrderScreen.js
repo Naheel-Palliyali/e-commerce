@@ -21,28 +21,36 @@ const OrderScreen = () => {
   const { loading: loadingPay, success: successPay } = orderPay
 
   useEffect(() => {
-    if (loading) {
-      dispatch(getOrderDetails(orderId))
-    }
-
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get('/api/config/paypal')
       const script = document.createElement('script')
       script.type = 'text/javascript'
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
       script.async = true
-      script.onload = () => setSdkReady(true)
+      script.addEventListener('load', () => setSdkReady(true))
       document.body.appendChild(script)
     }
+    if (!order || order._id !== orderId) {
+      dispatch(getOrderDetails(orderId))
+      addPayPalScript()
+    }
 
-    if (!loading && !successPay) {
+    if (order && !successPay) {
       if (!window.paypal) {
-        addPayPalScript()
+        console.log(sdkReady, 'after loading script')
       }
     } else if (successPay) {
       order.isPaid = true
     }
-  }, [dispatch, orderId, order, loading, successPay])
+  }, [
+    dispatch,
+    orderId,
+    order,
+    loading,
+    loadingPay,
+    successPay,
+    orderPay.isPaid,
+  ])
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)
@@ -165,6 +173,7 @@ const OrderScreen = () => {
               {!successPay && !order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
+
                   {!sdkReady ? (
                     <Loader />
                   ) : (
