@@ -64,15 +64,7 @@ const OrderScreen = () => {
       order.isPaid = true
     }
     // eslint-disable-next-line
-  }, [
-    dispatch,
-    orderId,
-    loading,
-    loadingPay,
-    loadingDeliver,
-    successDeliver,
-    orderPay,
-  ])
+  }, [dispatch, orderId, loading, loadingPay, loadingDeliver, successDeliver])
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult))
