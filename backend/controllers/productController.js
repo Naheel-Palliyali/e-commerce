@@ -59,7 +59,7 @@ const createReview = asyncHandler(async (req, res) => {
     const review = {
       name: req.user.name,
       rating: Number(rating),
-      comment,
+      comment: String(comment),
       user: req.user._id,
     }
 
