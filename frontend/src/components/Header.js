@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { logout } from '../actions/userActions'
 import { USER_DETAILS_RESET } from '../constants/userConstants'
 import { MY_ORDERS_RESET } from '../constants/orderConstants'
+import SearchBox from './SearchBox'
 
 library.add(faShoppingCart, faUser)
 
@@ -35,6 +36,7 @@ const Header = () => {
           </Link>
           <Navbar.Toggle aria-controls='navbarScroll' />
           <Navbar.Collapse id='navbarScroll'>
+            <SearchBox />
             <Nav style={{ marginLeft: 'auto' }} navbarScroll>
               <Nav.Link
                 href='/cart'

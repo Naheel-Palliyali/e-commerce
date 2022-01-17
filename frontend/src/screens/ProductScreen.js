@@ -76,11 +76,11 @@ const ProductScreen = () => {
           size='sm'
           style={{
             padding: '4px 8px',
-            borderColor: 'white',
+            border: 'none',
             marginBottom: '12px',
           }}
         >
-          Go back
+          ← Back
         </Button>
       </Link>
       {loading ? (
