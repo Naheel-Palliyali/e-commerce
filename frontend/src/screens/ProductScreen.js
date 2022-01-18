@@ -50,7 +50,8 @@ const ProductScreen = () => {
       dispatch(listProductDetail(params))
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
-  }, [dispatch, params, successReview, product])
+    // eslint-disable-next-line
+  }, [dispatch, params, successReview])
 
   const [qty, setQty] = useState(1)
   const addToCartHandler = () => {

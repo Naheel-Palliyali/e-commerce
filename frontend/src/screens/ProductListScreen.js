@@ -61,6 +61,7 @@ const ProductListScreen = () => {
     successDelete,
     successCreate,
     productCreated,
+    pageNumber,
   ])
 
   const productList = useSelector((state) => state.productList)
