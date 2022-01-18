@@ -50,7 +50,7 @@ const ProductScreen = () => {
       dispatch(listProductDetail(params))
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
-  }, [dispatch, params, successReview])
+  }, [dispatch, params, successReview, product])
 
   const [qty, setQty] = useState(1)
   const addToCartHandler = () => {

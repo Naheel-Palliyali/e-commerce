@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Table, Row, Col } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   listProduct,
   deleteProduct,
@@ -16,6 +16,7 @@ import {
   PRODUCT_CREATE_RESET,
   PRODUCT_DETAILS_RESET,
 } from '../constants/productConstants'
+import Paginate from '../components/Paginate'
 
 library.add(faPlus)
 const plus = <FontAwesomeIcon icon={faPlus} style={{ marginRight: '8px' }} />
@@ -23,6 +24,7 @@ const plus = <FontAwesomeIcon icon={faPlus} style={{ marginRight: '8px' }} />
 const ProductListScreen = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const pageNumber = useParams().pageNumber
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -50,7 +52,7 @@ const ProductListScreen = () => {
     } else if (successCreate) {
       navigate(`/api/admin/products/${productCreated._id}/edit`)
     } else {
-      dispatch(listProduct())
+      dispatch(listProduct('', pageNumber))
     }
   }, [
     dispatch,
@@ -62,7 +64,7 @@ const ProductListScreen = () => {
   ])
 
   const productList = useSelector((state) => state.productList)
-  const { loading, products, error } = productList
+  const { loading, products, error, page, pages } = productList
 
   const deleteProductHandler = (id) => {
     if (window.confirm('Are you sure?')) {
@@ -112,63 +114,66 @@ const ProductListScreen = () => {
       ) : error ? (
         <Message message={error} variant='danger' />
       ) : (
-        <Table striped responsive bordered hover size='sm'>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Stock</th>
-              <th>Category</th>
-              <th>Brand</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {products &&
-              products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>${product.price}</td>
-                  <td>{product.countInStock}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
-                  <td
-                    style={{
-                      padding: '6px',
-                      position: 'relative',
-                    }}
-                  >
-                    <Button
-                      variant='outline-dark'
-                      size='sm'
+        <>
+          <Table striped responsive bordered hover size='sm'>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {products &&
+                products.map((product) => (
+                  <tr key={product._id}>
+                    <td>{product._id}</td>
+                    <td>{product.name}</td>
+                    <td>${product.price}</td>
+                    <td>{product.countInStock}</td>
+                    <td>{product.category}</td>
+                    <td>{product.brand}</td>
+                    <td
                       style={{
-                        padding: '4px 16px',
-                        width: '74px',
+                        padding: '6px',
+                        position: 'relative',
                       }}
-                      onClick={() => editProductHandler(product._id)}
                     >
-                      Edit
-                    </Button>
-                    <Button
-                      variant='outline-danger'
-                      size='sm'
-                      color='red'
-                      style={{
-                        padding: '4px 16px',
-                        marginLeft: '12px',
-                        width: '74px',
-                      }}
-                      onClick={() => deleteProductHandler(product._id)}
-                    >
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
+                      <Button
+                        variant='outline-dark'
+                        size='sm'
+                        style={{
+                          padding: '4px 16px',
+                          width: '74px',
+                        }}
+                        onClick={() => editProductHandler(product._id)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant='outline-danger'
+                        size='sm'
+                        color='red'
+                        style={{
+                          padding: '4px 16px',
+                          marginLeft: '12px',
+                          width: '74px',
+                        }}
+                        onClick={() => deleteProductHandler(product._id)}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </Table>
+          <Paginate page={page} pages={pages} isAdmin={true} />
+        </>
       )}
     </>
   )

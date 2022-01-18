@@ -10,6 +10,7 @@ const SearchBox = () => {
     e.preventDefault()
     if (keyword.trim()) {
       navigate(`/search/${keyword}`)
+      setKeyword('')
     } else {
       navigate('/')
     }
@@ -21,6 +22,7 @@ const SearchBox = () => {
         type='text'
         name='query'
         onChange={(e) => setKeyword(e.target.value)}
+        value={keyword}
         placeholder='Search Products...'
         className='mr-sm-2 ml-sm-5'
       ></Form.Control>
