@@ -16,6 +16,7 @@ import { listProductDetail, reviewProduct } from '../actions/productActions'
 import { addToCart } from '../actions/cartActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import Meta from '../components/Meta'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 
 const ProductScreen = () => {
@@ -92,6 +93,7 @@ const ProductScreen = () => {
         <Message variant='danger' message='error' />
       ) : (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col md={6}>
               <Image src={product.image} alt={product.name} fluid />
