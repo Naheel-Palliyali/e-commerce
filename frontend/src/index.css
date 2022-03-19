@@ -1,59 +1,44 @@
 main {
-  min-height: 80vh;
+    min-height: 80vh;
 }
 
 .count {
-  margin-left: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 h1 {
-  padding: 24px 0px;
+    padding: 24px 0px;
 }
 
 /* carousel */
 .carousel-item {
-  position: relative;
-  background-color: #343a40;
-  padding: 24px;
+    background-color: #343a40;
+    padding: 1rem 0 3rem;
+    min-height: 420px;
 }
 
-.carousel-item-next,
-.carousel-item-prev,
-.carousel-item-active {
-  display: flex;
-  color: grey;
+.carousel-content-wrapper {
+    width: 90%;
+    height: 380px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.carousel-caption {
-  color: white;
-  max-width: 480px;
-  text-align: left;
-  position: absolute;
-  top: 72px;
-  left: 620px;
-}
-.carousel-caption h3 {
-  color: white;
-  font-size: 32px;
-}
-.carousel-caption p {
-  color: white;
-  font-size: 24px;
-  position: relative;
-  top: 12px;
+.image-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 1.6rem;
 }
 
-.carousel-item.active {
-  position: relative;
-  align-items: center;
-  justify-content: center;
+.text-container > h3 {
+    color: white;
+    text-align: center;
+    text-decoration: none;
 }
 
-.carousel img {
-  height: 300px;
-  margin: 40px;
-  /* border-radius: 12px; */
-  position: relative;
-  left: 100px;
-  bottom: 12px;
+.carousel-rating {
+    display: flex;
+    justify-content: center;
 }
