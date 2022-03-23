@@ -42,3 +42,17 @@ h1 {
     display: flex;
     justify-content: center;
 }
+
+.search-box {
+    height: 2.2rem;
+    margin: 1.6rem 0;
+}
+
+.search-box input {
+    border-radius: 4px;
+}
+.search-box button {
+    border-radius: 4px;
+    padding: 0.4em 1.2em;
+    margin-left: 0.4rem;
+}
